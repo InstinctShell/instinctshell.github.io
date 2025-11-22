@@ -205,19 +205,6 @@
                 gap: 1rem;
             }
 
-            .mobile-only {
-                display: none !important;
-            }
-        }
-
-        @media screen and (max-width: 768px) {
-            .mobile-only {
-                display: flex !important;
-            }
-
-            .desktop-link {
-                display: none !important;
-            }
         }
 
         .section {
@@ -643,12 +630,6 @@
         }
 
         @media screen and (max-width: 768px) {
-            .desktop-link,
-            .nav-links li.desktop-link,
-            .nav-links li.desktop-link a {
-                display: none !important;
-            }
-
             nav {
                 padding: 0.5rem 0.5rem !important;
             }
@@ -1033,21 +1014,8 @@
                 <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li class="desktop-link"><a href="#tutorial">📚 Tutorial</a></li>
-                <li class="desktop-link"><a href="#privacy">🔒 Privacy Policy</a></li>
-                <li class="nav-dropdown mobile-only">
-                    <span class="nav-dropdown-toggle">More</span>
-                    <div class="nav-dropdown-menu">
-                        <a href="#tutorial" class="nav-dropdown-item">
-                            <span class="nav-dropdown-icon">📚</span>
-                            <span>Tutorial</span>
-                        </a>
-                        <a href="#privacy" class="nav-dropdown-item">
-                            <span class="nav-dropdown-icon">🔒</span>
-                            <span>Privacy Policy</span>
-                        </a>
-                    </div>
-                </li>
+                <li><a href="#tutorial">📚 Tutorial</a></li>
+                <li><a href="#privacy">🔒 Privacy Policy</a></li>
             </ul>
             </div>
         </div>
@@ -2247,19 +2215,6 @@
                 navLinks[3].innerHTML = `🔒 ${t.nav.privacy}`;
             }
             
-            // Update dropdown toggles (mobile)
-            const dropdowns = document.querySelectorAll('.nav-dropdown.mobile-only');
-            if (dropdowns.length >= 1) {
-                const moreToggle = dropdowns[0].querySelector('.nav-dropdown-toggle');
-                if (moreToggle) moreToggle.textContent = t.nav.more;
-            }
-            
-            // Update dropdown items in "More" menu (mobile)
-            const moreMenuItems = document.querySelectorAll('.nav-dropdown.mobile-only .nav-dropdown-item');
-            if (moreMenuItems.length >= 2) {
-                moreMenuItems[0].innerHTML = `<span class="nav-dropdown-icon">📚</span><span>${t.nav.tutorial}</span>`;
-                moreMenuItems[1].innerHTML = `<span class="nav-dropdown-icon">🔒</span><span>${t.nav.privacy}</span>`;
-            }
 
             // Update Privacy Policy section
             const privacyH2 = document.querySelector('#privacy h2');
