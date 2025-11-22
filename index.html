@@ -66,6 +66,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: nowrap;
         }
 
         .logo {
@@ -171,6 +172,16 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* На десктопе nav-links-wrapper должен быть inline */
+        @media (min-width: 769px) {
+            .nav-links-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
         }
 
         .section {
@@ -547,7 +558,7 @@
 
         /* Responsive */
         @media (max-width: 1200px) {
-            .nav-container {
+            nav .nav-container {
                 padding: 0 1rem;
             }
             
@@ -556,63 +567,77 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
             nav {
-                padding: 0.5rem 1rem;
+                padding: 0.5rem 1rem !important;
             }
 
             nav .nav-container {
-                max-width: 100%;
-                padding: 0;
-                flex-direction: column;
-                gap: 0.75rem;
+                max-width: 100% !important;
+                padding: 0 !important;
+                flex-direction: column !important;
+                flex-wrap: nowrap !important;
+                gap: 0.75rem !important;
+                justify-content: flex-start !important;
+                align-items: stretch !important;
             }
 
             .logo {
-                font-size: 1.3rem;
-                white-space: nowrap;
-                text-align: center;
-                width: 100%;
+                font-size: 1.3rem !important;
+                white-space: nowrap !important;
+                text-align: center !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0.25rem 0 !important;
+                order: 1 !important;
             }
 
             .nav-links-wrapper {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 1rem;
-                width: 100%;
-                flex-wrap: wrap;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 0.75rem !important;
+                width: 100% !important;
+                flex-wrap: wrap !important;
+                order: 2 !important;
+                margin: 0 !important;
             }
 
             .nav-links {
-                gap: 0.5rem;
-                flex-wrap: wrap;
-                justify-content: center;
+                gap: 0.5rem !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                margin: 0 !important;
             }
 
             .nav-links a,
             .nav-dropdown-toggle {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.85rem;
+                padding: 0.4rem 0.6rem !important;
+                font-size: 0.85rem !important;
             }
 
             .language-button {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.85rem;
+                padding: 0.4rem 0.6rem !important;
+                font-size: 0.85rem !important;
+            }
+
+            .language-selector {
+                margin-left: 0 !important;
+                flex-shrink: 0 !important;
             }
 
             .nav-dropdown-menu {
-                right: 0;
-                left: auto;
+                right: 0 !important;
+                left: auto !important;
             }
 
             .nav-dropdown:last-of-type .nav-dropdown-menu {
-                right: 0;
-                left: auto;
+                right: 0 !important;
+                left: auto !important;
             }
 
             main {
-                margin-top: 100px;
+                margin-top: 120px !important;
             }
 
             .hero {
