@@ -74,9 +74,9 @@
         nav .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding-right: 3rem;
+            padding-left: 1rem;
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
             align-items: center;
             gap: 2rem;
             flex-wrap: nowrap;
@@ -965,6 +965,26 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
+                <div class="language-selector">
+                    <button class="language-button" onclick="toggleLanguageMenu()">
+                        <span id="current-lang-flag">🇬🇧</span>
+                        <span id="current-lang-code">EN</span>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" onclick="changeLanguage('ru')">
+                            <span>🇷🇺</span>
+                            <span>Русский</span>
+                        </div>
+                        <div class="language-option active" onclick="changeLanguage('en')">
+                            <span>🇬🇧</span>
+                            <span>English</span>
+                        </div>
+                        <div class="language-option" onclick="changeLanguage('zh')">
+                            <span>🇨🇳</span>
+                            <span>中文</span>
+                        </div>
+                    </div>
+                </div>
             <div class="nav-links-wrapper">
                 <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
@@ -986,26 +1006,6 @@
                 </li>
             </ul>
             </div>
-                <div class="language-selector">
-                    <button class="language-button" onclick="toggleLanguageMenu()">
-                        <span id="current-lang-flag">🇬🇧</span>
-                        <span id="current-lang-code">EN</span>
-                    </button>
-                    <div class="language-dropdown" id="languageDropdown">
-                        <div class="language-option" onclick="changeLanguage('ru')">
-                            <span>🇷🇺</span>
-                            <span>Русский</span>
-                        </div>
-                        <div class="language-option active" onclick="changeLanguage('en')">
-                            <span>🇬🇧</span>
-                            <span>English</span>
-                        </div>
-                        <div class="language-option" onclick="changeLanguage('zh')">
-                            <span>🇨🇳</span>
-                            <span>中文</span>
-                        </div>
-                    </div>
-                </div>
         </div>
     </nav>
 
