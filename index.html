@@ -658,7 +658,7 @@
                 padding: 0 !important;
                 flex-direction: row !important;
                 flex-wrap: wrap !important;
-                gap: 0.5rem !important;
+                gap: 0.3rem !important;
                 justify-content: center !important;
                 align-items: center !important;
             }
@@ -667,14 +667,14 @@
                 display: flex !important;
                 justify-content: center !important;
                 align-items: center !important;
-                gap: 0.3rem !important;
+                gap: 0.2rem !important;
                 width: 100% !important;
                 flex-wrap: nowrap !important;
                 margin: 0 !important;
             }
 
             .nav-links {
-                gap: 0.3rem !important;
+                gap: 0.2rem !important;
                 flex-wrap: nowrap !important;
                 justify-content: center !important;
                 align-items: center !important;
@@ -701,14 +701,14 @@
 
             .nav-links a,
             .nav-dropdown-toggle {
-                padding: 0.5rem 0.8rem !important;
-                font-size: 1.2rem !important;
+                padding: 0.4rem 0.6rem !important;
+                font-size: 0.9rem !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 height: auto !important;
                 min-height: auto !important;
-                line-height: 1.4 !important;
+                line-height: 1.2 !important;
                 vertical-align: middle !important;
                 box-sizing: border-box !important;
             }
@@ -806,13 +806,13 @@
 
             .nav-links a,
             .nav-dropdown-toggle {
-                padding: 0.8rem 1.3rem !important;
-                font-size: 1.1rem !important;
+                padding: 0.4rem 0.6rem !important;
+                font-size: 0.85rem !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 height: auto !important;
-                min-height: 2.8rem !important;
-                line-height: 1.4 !important;
+                min-height: auto !important;
+                line-height: 1.2 !important;
             }
 
             .language-button {
@@ -968,7 +968,7 @@
                 <div class="language-selector">
                     <button class="language-button" onclick="toggleLanguageMenu()">
                         <span id="current-lang-flag">🇬🇧</span>
-                        <span id="current-lang-code">English</span>
+                        <span id="current-lang-code">EN</span>
                     </button>
                     <div class="language-dropdown" id="languageDropdown">
                         <div class="language-option" onclick="changeLanguage('ru')">
@@ -2122,6 +2122,13 @@
 
         // Initialize language on page load
         document.addEventListener('DOMContentLoaded', function() {
+            // Force update language button immediately
+            const info = languageInfo[currentLanguage];
+            const flagElement = document.getElementById('current-lang-flag');
+            const codeElement = document.getElementById('current-lang-code');
+            if (flagElement && info) flagElement.textContent = info.flag;
+            if (codeElement && info) codeElement.textContent = info.code;
+            
             changeLanguage(currentLanguage, false);
             
             // Toggle dropdown menus
@@ -2185,7 +2192,7 @@
             const flagElement = document.getElementById('current-lang-flag');
             const codeElement = document.getElementById('current-lang-code');
             if (flagElement) flagElement.textContent = info.flag;
-            if (codeElement) codeElement.textContent = info.name;
+            if (codeElement) codeElement.textContent = info.code;
 
             // Update navigation links (desktop)
             const navLinks = document.querySelectorAll('.nav-links > li > a:not(.nav-dropdown-item)');
