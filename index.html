@@ -166,6 +166,13 @@
             margin-top: 80px;
         }
 
+        /* Nav Links Wrapper - для мобильной версии */
+        .nav-links-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         .section {
             padding: 4rem 2rem;
             max-width: 1200px;
@@ -551,22 +558,36 @@
 
         @media (max-width: 768px) {
             nav {
-                padding: 0.75rem 1rem;
+                padding: 0.5rem 1rem;
             }
 
             nav .nav-container {
                 max-width: 100%;
                 padding: 0;
+                flex-direction: column;
+                gap: 0.75rem;
             }
 
             .logo {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
                 white-space: nowrap;
+                text-align: center;
+                width: 100%;
+            }
+
+            .nav-links-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+                width: 100%;
+                flex-wrap: wrap;
             }
 
             .nav-links {
                 gap: 0.5rem;
-                flex-wrap: nowrap;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .nav-links a,
@@ -589,6 +610,28 @@
                 right: 0;
                 left: auto;
             }
+
+            main {
+                margin-top: 100px;
+            }
+
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+                padding: 0 0.5rem;
+            }
+
+            .hero .version {
+                font-size: 0.85rem;
+                padding: 0.6rem 1.2rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -596,8 +639,16 @@
                 padding: 0.5rem 0.75rem;
             }
 
+            nav .nav-container {
+                gap: 0.5rem;
+            }
+
             .logo {
-                font-size: 1rem;
+                font-size: 1.1rem;
+            }
+
+            .nav-links-wrapper {
+                gap: 0.5rem;
             }
 
             .nav-links {
@@ -617,6 +668,32 @@
 
             .language-button span:last-child {
                 display: none;
+            }
+
+            main {
+                margin-top: 90px;
+            }
+
+            .hero {
+                padding: 3rem 0.75rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                padding: 0 0.25rem;
+                line-height: 1.4;
+            }
+
+            .hero .version {
+                font-size: 0.75rem;
+                padding: 0.5rem 1rem;
+                display: block;
+                margin: 1rem auto 0;
+                max-width: 90%;
             }
         }
 
@@ -714,7 +791,8 @@
     <nav>
         <div class="nav-container">
             <div class="logo">🛡️ InstinctShell</div>
-            <ul class="nav-links">
+            <div class="nav-links-wrapper">
+                <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li class="nav-dropdown">
@@ -758,23 +836,24 @@
                     </div>
                 </li>
             </ul>
-            <div class="language-selector">
-                <button class="language-button" onclick="toggleLanguageMenu()">
-                    <span id="current-lang-flag">🇬🇧</span>
-                    <span id="current-lang-code">EN</span>
-                </button>
-                <div class="language-dropdown" id="languageDropdown">
-                    <div class="language-option" onclick="changeLanguage('ru')">
-                        <span>🇷🇺</span>
-                        <span>Русский</span>
-                    </div>
-                    <div class="language-option active" onclick="changeLanguage('en')">
-                        <span>🇬🇧</span>
-                        <span>English</span>
-                    </div>
-                    <div class="language-option" onclick="changeLanguage('zh')">
-                        <span>🇨🇳</span>
-                        <span>中文</span>
+                <div class="language-selector">
+                    <button class="language-button" onclick="toggleLanguageMenu()">
+                        <span id="current-lang-flag">🇬🇧</span>
+                        <span id="current-lang-code">EN</span>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" onclick="changeLanguage('ru')">
+                            <span>🇷🇺</span>
+                            <span>Русский</span>
+                        </div>
+                        <div class="language-option active" onclick="changeLanguage('en')">
+                            <span>🇬🇧</span>
+                            <span>English</span>
+                        </div>
+                        <div class="language-option" onclick="changeLanguage('zh')">
+                            <span>🇨🇳</span>
+                            <span>中文</span>
+                        </div>
                     </div>
                 </div>
             </div>
