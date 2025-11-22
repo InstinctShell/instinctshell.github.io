@@ -96,8 +96,9 @@
             color: var(--text-secondary);
             font-weight: 500;
             transition: all 0.3s;
-            padding: 0.5rem 1rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 8px;
+            font-size: 1.1rem;
         }
 
         .nav-links a:hover {
@@ -116,10 +117,10 @@
             backdrop-filter: blur(10px);
             color: var(--text-light);
             border: 1px solid var(--glass-border);
-            padding: 0.5rem 1rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: all 0.3s;
             display: flex;
             align-items: center;
@@ -224,19 +225,21 @@
         }
 
         .hero .version {
-            display: inline-block;
+            display: block;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             padding: 0.8rem 2rem;
             border-radius: 30px;
             font-size: 1rem;
+            margin: 0 auto;
             margin-top: 1rem;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             transition: all 0.3s;
             cursor: pointer;
             text-decoration: none;
             color: var(--text-light);
+            max-width: fit-content;
         }
 
         .hero .version:first-of-type {
@@ -497,11 +500,12 @@
             color: var(--text-secondary);
             font-weight: 500;
             transition: all 0.3s;
-            padding: 0.5rem 1rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 8px;
             user-select: none;
             line-height: 1.4;
             vertical-align: middle;
+            font-size: 1.1rem;
         }
 
         .nav-dropdown-toggle:hover {
@@ -512,7 +516,7 @@
 
         .nav-dropdown-toggle::after {
             content: '▼';
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             transition: transform 0.3s;
             margin-left: 0.25rem;
         }
@@ -637,28 +641,32 @@
 
             .nav-links a,
             .nav-dropdown-toggle {
-                padding: 0.5rem 0.8rem !important;
-                font-size: 0.85rem !important;
+                padding: 0.7rem 1.2rem !important;
+                font-size: 1rem !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 height: auto !important;
-                min-height: 2.2rem !important;
+                min-height: 2.5rem !important;
                 line-height: 1.4 !important;
                 vertical-align: middle !important;
                 box-sizing: border-box !important;
             }
 
             .language-button {
-                padding: 0.5rem 0.8rem !important;
-                font-size: 0.85rem !important;
+                padding: 0.7rem 1.2rem !important;
+                font-size: 1rem !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 height: auto !important;
-                min-height: 2.2rem !important;
+                min-height: 2.5rem !important;
                 line-height: 1.4 !important;
                 box-sizing: border-box !important;
+            }
+
+            .nav-dropdown-toggle::after {
+                font-size: 0.8rem !important;
             }
 
             .language-selector {
@@ -683,7 +691,7 @@
             }
 
             .hero {
-                padding: 4rem 1rem;
+                padding: 2rem 1rem !important;
             }
 
             .hero h1 {
@@ -727,21 +735,27 @@
 
             .nav-links a,
             .nav-dropdown-toggle {
-                padding: 0.4rem 0.6rem !important;
-                font-size: 0.75rem !important;
+                padding: 0.6rem 1rem !important;
+                font-size: 0.9rem !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 height: auto !important;
+                min-height: 2.4rem !important;
                 line-height: 1.4 !important;
             }
 
             .language-button {
-                padding: 0.4rem 0.6rem !important;
-                font-size: 0.75rem !important;
+                padding: 0.6rem 1rem !important;
+                font-size: 0.9rem !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 height: auto !important;
+                min-height: 2.4rem !important;
                 line-height: 1.4 !important;
+            }
+
+            .nav-dropdown-toggle::after {
+                font-size: 0.75rem !important;
             }
 
             .language-button span:last-child {
