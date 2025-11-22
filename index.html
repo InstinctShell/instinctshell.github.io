@@ -79,6 +79,7 @@
             display: flex;
             gap: 2rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
@@ -206,6 +207,17 @@
             font-size: 1rem;
             margin-top: 1rem;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .hero .version:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 20px rgba(3, 218, 198, 0.5);
+            transform: translateY(-2px);
         }
 
         h2 {
@@ -442,7 +454,7 @@
 
         .nav-dropdown-toggle {
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             color: var(--text-secondary);
@@ -450,6 +462,7 @@
             transition: all 0.3s;
             padding: 0.5rem 1rem;
             border-radius: 8px;
+            user-select: none;
         }
 
         .nav-dropdown-toggle:hover {
@@ -516,13 +529,16 @@
             padding-left: 2rem;
         }
 
+        .nav-dropdown-item:active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         .nav-dropdown-icon {
             font-size: 1.2rem;
             filter: drop-shadow(0 0 5px rgba(3, 218, 198, 0.8));
         }
 
         /* Responsive */
-        /* Responsive adjustments (no mobile version, just scaling) */
         @media (max-width: 1200px) {
             .nav-container {
                 padding: 0 1rem;
@@ -530,6 +546,77 @@
             
             .nav-links {
                 gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.75rem 1rem;
+            }
+
+            nav .nav-container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                white-space: nowrap;
+            }
+
+            .nav-links {
+                gap: 0.5rem;
+                flex-wrap: nowrap;
+            }
+
+            .nav-links a,
+            .nav-dropdown-toggle {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.85rem;
+            }
+
+            .language-button {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.85rem;
+            }
+
+            .nav-dropdown-menu {
+                right: 0;
+                left: auto;
+            }
+
+            .nav-dropdown:last-of-type .nav-dropdown-menu {
+                right: 0;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                gap: 0.25rem;
+            }
+
+            .nav-links a,
+            .nav-dropdown-toggle {
+                padding: 0.3rem 0.4rem;
+                font-size: 0.75rem;
+            }
+
+            .language-button {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .language-button span:last-child {
+                display: none;
             }
         }
 
@@ -700,7 +787,7 @@
         <section id="home" class="hero">
             <h1>InstinctShell</h1>
             <p>VPN Subscription Management Application</p>
-            <div class="version">Version 1.9.7 | Android 7.0+ | API 24-35</div>
+            <a href="#" class="version" id="download-version-btn" onclick="event.preventDefault(); alert('Download link will be available soon!');">Download Version 1.9.7 | Android 7.0+ | API 24-35</a>
         </section>
 
         <!-- About Section -->
@@ -743,7 +830,7 @@
                     <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--secondary-color);">📧 Contact Information</h3>
                     <p><strong>Developer:</strong> Aleksandr Konstantinov (Instinct)</p>
                     <p><strong>Email:</strong> <a href="mailto:instinctkotlincompose@gmail.com" style="color: var(--secondary-color); text-decoration: none;">instinctkotlincompose@gmail.com</a></p>
-                    <p><strong>Support:</strong> <a href="mailto:instinctkotlincompose@gmail.com?subject=InstinctShell%20-%20Help%20%26%20Support" style="color: var(--secondary-color); text-decoration: none;">Contact us</a></p>
+                    <p><strong>Support:</strong> <a href="https://t.me/instinctshell" target="_blank" rel="noopener noreferrer" style="color: var(--secondary-color); text-decoration: none;">📢 Telegram</a></p>
                 </div>
             </div>
         </section>
@@ -1141,7 +1228,7 @@
                 hero: {
                     title: 'InstinctShell',
                     subtitle: 'VPN Subscription Management Application',
-                    version: 'Версия 1.9.7 | Android 7.0+ | API 24-35'
+                    version: 'Скачать Версия 1.9.7 | Android 7.0+ | API 24-35'
                 },
                 about: {
                     title: '📋 О проекте',
@@ -1170,6 +1257,7 @@
                     developer: 'Разработчик:',
                     email: 'Email:',
                     support: 'Поддержка:',
+                    telegram: 'Telegram',
                     contactUs: 'Связаться с нами',
                     supportSubject: 'InstinctShell - Помощь и поддержка'
                 },
@@ -1296,7 +1384,7 @@
                 },
                 footer: {
                     copyright: '© 2024 InstinctShell Team. Все права защищены.',
-                    version: 'Версия 1.9.7 | Android 7.0+ | API 24-35'
+                    version: 'Скачать Версия 1.9.7 | Android 7.0+ | API 24-35'
                 }
             },
             en: {
@@ -1318,7 +1406,7 @@
                 hero: {
                     title: 'InstinctShell',
                     subtitle: 'VPN Subscription Management Application',
-                    version: 'Version 1.9.7 | Android 7.0+ | API 24-35'
+                    version: 'Download Version 1.9.7 | Android 7.0+ | API 24-35'
                 },
                 about: {
                     title: '📋 About',
@@ -1347,6 +1435,7 @@
                     developer: 'Developer:',
                     email: 'Email:',
                     support: 'Support:',
+                    telegram: 'Telegram',
                     contactUs: 'Contact us',
                     supportSubject: 'InstinctShell - Help & Support'
                 },
@@ -1473,7 +1562,7 @@
                 },
                 footer: {
                     copyright: '© 2024 InstinctShell Team. All rights reserved.',
-                    version: 'Version 1.9.7 | Android 7.0+ | API 24-35'
+                    version: 'Download Version 1.9.7 | Android 7.0+ | API 24-35'
                 }
             },
             zh: {
@@ -1495,7 +1584,7 @@
                 hero: {
                     title: 'InstinctShell',
                     subtitle: 'VPN订阅管理应用程序',
-                    version: '版本 1.9.7 | Android 7.0+ | API 24-35'
+                    version: '下载 版本 1.9.7 | Android 7.0+ | API 24-35'
                 },
                 about: {
                     title: '📋 关于项目',
@@ -1524,6 +1613,7 @@
                     developer: '开发者:',
                     email: 'Email:',
                     support: '支持:',
+                    telegram: 'Telegram',
                     contactUs: '联系我们',
                     supportSubject: 'InstinctShell - 帮助和支持'
                 },
@@ -1650,7 +1740,7 @@
                 },
                 footer: {
                     copyright: '© 2024 InstinctShell Team. 保留所有权利。',
-                    version: '版本 1.9.7 | Android 7.0+ | API 24-35'
+                    version: '下载 版本 1.9.7 | Android 7.0+ | API 24-35'
                 }
             }
         };
@@ -1668,6 +1758,37 @@
         // Initialize language on page load
         document.addEventListener('DOMContentLoaded', function() {
             changeLanguage(currentLanguage, false);
+            
+            // Toggle dropdown menus
+            document.querySelectorAll('.nav-dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isActive = dropdown.classList.contains('active');
+                    
+                    // Close all dropdowns
+                    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('active'));
+                    
+                    // Toggle current dropdown
+                    if (!isActive) {
+                        dropdown.classList.add('active');
+                    }
+                });
+            });
+
+            // Close dropdowns when clicking outside or on a link
+            document.addEventListener('click', function(event) {
+                const clickedDropdown = event.target.closest('.nav-dropdown');
+                if (!clickedDropdown) {
+                    // Clicked outside, close all dropdowns
+                    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('active'));
+                } else if (event.target.closest('.nav-dropdown-item')) {
+                    // Clicked on a dropdown item, close dropdown after a short delay to allow link to work
+                    setTimeout(() => {
+                        clickedDropdown.classList.remove('active');
+                    }, 100);
+                }
+            });
         });
 
         // Toggle language menu
@@ -1782,7 +1903,7 @@
                         <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--secondary-color);">${t.about.contactInfo}</h3>
                         <p><strong>${t.about.developer}</strong> Aleksandr Konstantinov (Instinct)</p>
                         <p><strong>${t.about.email}</strong> <a href="mailto:instinctkotlincompose@gmail.com" style="color: var(--secondary-color); text-decoration: none;">instinctkotlincompose@gmail.com</a></p>
-                        <p><strong>${t.about.support}</strong> <a href="mailto:instinctkotlincompose@gmail.com?subject=${encodeURIComponent(t.about.supportSubject)}" style="color: var(--secondary-color); text-decoration: none;">${t.about.contactUs}</a></p>
+                        <p><strong>${t.about.support}</strong> <a href="https://t.me/instinctshell" target="_blank" rel="noopener noreferrer" style="color: var(--secondary-color); text-decoration: none;">📢 ${t.about.telegram}</a></p>
                     </div>
                 `;
             }
