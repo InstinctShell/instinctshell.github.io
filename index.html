@@ -968,7 +968,7 @@
                 <div class="language-selector">
                     <button class="language-button" onclick="toggleLanguageMenu()">
                         <span id="current-lang-flag">🇬🇧</span>
-                        <span id="current-lang-code">EN</span>
+                        <span id="current-lang-code">English</span>
                     </button>
                     <div class="language-dropdown" id="languageDropdown">
                         <div class="language-option" onclick="changeLanguage('ru')">
@@ -2182,8 +2182,10 @@
             const info = languageInfo[lang];
 
             // Update language button
-            document.getElementById('current-lang-flag').textContent = info.flag;
-            document.getElementById('current-lang-code').textContent = info.code;
+            const flagElement = document.getElementById('current-lang-flag');
+            const codeElement = document.getElementById('current-lang-code');
+            if (flagElement) flagElement.textContent = info.flag;
+            if (codeElement) codeElement.textContent = info.name;
 
             // Update navigation links (desktop)
             const navLinks = document.querySelectorAll('.nav-links > li > a:not(.nav-dropdown-item)');
