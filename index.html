@@ -2221,7 +2221,7 @@
                 }
             });
 
-            // Ensure language button works on mobile
+            // Ensure language button works on mobile - direct approach
             const langButton = document.querySelector('.language-button');
             if (langButton) {
                 // Make sure button is clickable
@@ -2229,29 +2229,27 @@
                 langButton.style.zIndex = '1003';
                 langButton.style.touchAction = 'manipulation';
                 langButton.style.webkitTapHighlightColor = 'transparent';
+                langButton.style.cursor = 'pointer';
+                langButton.style.userSelect = 'none';
                 
-                // Add touch event handlers for mobile
-                let touchStartTime = 0;
-                langButton.addEventListener('touchstart', function(e) {
-                    touchStartTime = Date.now();
-                    e.stopPropagation();
-                }, { passive: true });
+                // Remove any existing onclick to avoid conflicts
+                langButton.removeAttribute('onclick');
                 
-                langButton.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const touchDuration = Date.now() - touchStartTime;
-                    if (touchDuration < 500) { // Only trigger for quick taps
-                        window.toggleLanguageMenu(e);
-                    }
-                }, { passive: false });
-                
-                // Also ensure click works
+                // Add click handler that works on both mobile and desktop
                 langButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
+                    console.log('Language button clicked');
                     window.toggleLanguageMenu(e);
-                });
+                }, false);
+                
+                // Also handle touch for better mobile support (but don't prevent click)
+                langButton.addEventListener('touchend', function(e) {
+                    // Don't prevent default to allow click to fire
+                    e.stopPropagation();
+                    console.log('Language button touched');
+                    // Click event will handle the toggle
+                }, { passive: true });
             }
         });
 
@@ -2272,6 +2270,7 @@
             }
             
             const isShowing = dropdown.classList.contains('show');
+            console.log('Toggle language menu, isShowing:', isShowing);
             
             // Close all other dropdowns first
             document.querySelectorAll('.language-dropdown').forEach(d => {
@@ -2282,12 +2281,16 @@
             if (isShowing) {
                 dropdown.classList.remove('show');
                 window.languageMenuJustOpened = false;
+                console.log('Language menu closed');
             } else {
                 dropdown.classList.add('show');
                 window.languageMenuJustOpened = true;
+                console.log('Language menu opened');
+                // Force reflow to ensure display change
+                dropdown.offsetHeight;
                 setTimeout(() => {
                     window.languageMenuJustOpened = false;
-                }, 500);
+                }, 300);
             }
         };
         
@@ -2308,11 +2311,16 @@
                 
                 // Don't close if menu was just opened
                 if (window.languageMenuJustOpened) {
+                    console.log('Menu just opened, not closing');
                     return;
                 }
                 
-                dropdown.classList.remove('show');
-            });
+                // Only close if dropdown is actually showing
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                    console.log('Language menu closed by click outside');
+                }
+            }, true); // Use capture phase to catch events early
             
             // Also handle touch events for mobile
             document.addEventListener('touchend', function(event) {
@@ -2330,11 +2338,16 @@
                 
                 // Don't close if menu was just opened
                 if (window.languageMenuJustOpened) {
+                    console.log('Menu just opened, not closing (touch)');
                     return;
                 }
                 
-                dropdown.classList.remove('show');
-            });
+                // Only close if dropdown is actually showing
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                    console.log('Language menu closed by touch outside');
+                }
+            }, true); // Use capture phase
         }, 100);
 
         // Change language
@@ -2658,10 +2671,10 @@
                 if (target) {
                     const nav = document.querySelector('nav');
                     const navHeight = nav ? nav.offsetHeight : 80;
-                    // Use smaller offset - just enough to show content below nav
+                    // Use minimal offset - just enough to show content below nav
                     // For mobile, nav is smaller, so use adaptive offset
                     const isMobile = window.innerWidth <= 768;
-                    const offset = isMobile ? 30 : Math.min(navHeight, 60); // Smaller offset for mobile
+                    const offset = isMobile ? 10 : 20; // Very small offset
                     const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
                     
                     window.scrollTo({
