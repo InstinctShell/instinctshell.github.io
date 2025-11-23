@@ -803,7 +803,7 @@
             .hero p {
                 font-size: 1.2rem;
                 padding: 0 0.5rem;
-                margin-bottom: 8rem !important;
+                margin-bottom: 18rem !important;
             }
 
             .hero .version {
@@ -906,7 +906,7 @@
                 font-size: 1rem;
                 padding: 0 0.25rem;
                 line-height: 1.4;
-                margin-bottom: 8rem !important;
+                margin-bottom: 18rem !important;
             }
 
             .hero .version {
@@ -2216,31 +2216,12 @@
             // Add event listener for language button (better mobile support)
             const langButton = document.querySelector('.language-button');
             if (langButton) {
-                // Remove onclick handler to avoid conflicts
-                langButton.removeAttribute('onclick');
-                
-                let touchStartTime = 0;
-                
-                langButton.addEventListener('touchstart', function(e) {
-                    touchStartTime = Date.now();
-                    e.stopPropagation();
-                }, { passive: true });
-                
+                // Keep onclick but also add touch support
                 langButton.addEventListener('touchend', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    const touchDuration = Date.now() - touchStartTime;
-                    // Only trigger if it was a quick tap (not a swipe)
-                    if (touchDuration < 300) {
-                        toggleLanguageMenu(e);
-                    }
-                });
-                
-                langButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
                     toggleLanguageMenu(e);
-                });
+                }, { passive: false });
             }
         });
 
