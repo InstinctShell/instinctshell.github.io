@@ -834,6 +834,10 @@
                 right: auto !important;
                 min-width: 160px !important;
             }
+            
+            .nav-dropdown.mobile-only.active .nav-dropdown-menu {
+                display: block !important;
+            }
 
             .mobile-only {
                 display: flex !important;
@@ -999,6 +1003,10 @@
                 left: 0 !important;
                 right: auto !important;
                 min-width: 160px !important;
+            }
+            
+            .nav-dropdown.mobile-only.active .nav-dropdown-menu {
+                display: block !important;
             }
 
             .mobile-only {
@@ -1190,7 +1198,7 @@
                 <li class="mobile-hide"><a href="#tutorial">📚 Tutorial</a></li>
                 <li class="mobile-hide"><a href="#privacy">🔒 Privacy Policy</a></li>
                 <li class="nav-dropdown mobile-only">
-                    <button class="nav-dropdown-toggle" type="button" onclick="window.toggleMoreMenu(event)">More</button>
+                    <button class="nav-dropdown-toggle" type="button">More</button>
                     <div class="nav-dropdown-menu">
                         <a class="nav-dropdown-item" href="#tutorial">📚 Tutorial</a>
                         <a class="nav-dropdown-item" href="#privacy">🔒 Privacy Policy</a>
@@ -2326,35 +2334,54 @@
             // Toggle dropdown menus
             // Close dropdowns when clicking outside or on a link
             let dropdownJustOpened = false;
+            let lastToggleTime = 0;
             
             document.querySelectorAll('.nav-dropdown-toggle').forEach(toggle => {
                 // Make sure button is clickable on mobile
                 toggle.style.pointerEvents = 'auto';
                 toggle.style.touchAction = 'manipulation';
+                toggle.style.cursor = 'pointer';
                 
                 const handleToggle = (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     const dropdown = toggle.parentElement;
+                    if (!dropdown) return;
+                    
                     const isActive = dropdown.classList.contains('active');
+                    const currentTime = Date.now();
+                    
+                    // Prevent double-tap issues
+                    if (currentTime - lastToggleTime < 300) {
+                        return;
+                    }
+                    lastToggleTime = currentTime;
                     
                     // Close all dropdowns
-                    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('active'));
+                    document.querySelectorAll('.nav-dropdown').forEach(d => {
+                        if (d !== dropdown) d.classList.remove('active');
+                    });
                     
                     // Toggle current dropdown
-                    if (!isActive) {
+                    if (isActive) {
+                        dropdown.classList.remove('active');
+                    } else {
                         dropdown.classList.add('active');
                         dropdownJustOpened = true;
                         setTimeout(() => {
                             dropdownJustOpened = false;
-                        }, 300);
+                        }, 400);
                     }
                 };
                 
                 // Add click handler
-                toggle.addEventListener('click', handleToggle);
+                toggle.addEventListener('click', handleToggle, true);
                 
-                // Add touch handler for mobile
+                // Add touch handler for mobile (use touchstart to be more responsive)
+                toggle.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                }, { passive: true });
+                
                 toggle.addEventListener('touchend', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -2362,43 +2389,48 @@
                 }, { passive: false });
             });
             
+            // Handle clicks outside dropdown
             document.addEventListener('click', function(event) {
-                const clickedDropdown = event.target.closest('.nav-dropdown');
-                const clickedToggle = event.target.closest('.nav-dropdown-toggle');
-                
-                // Don't close if menu was just opened
-                if (dropdownJustOpened && clickedToggle) {
-                    dropdownJustOpened = false;
-                    return;
-                }
-                
-                if (!clickedDropdown) {
-                    // Clicked outside, close all dropdowns
-                    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('active'));
-                } else if (event.target.closest('.nav-dropdown-item')) {
-                    // Clicked on a dropdown item, close dropdown after a short delay to allow link to work
-                    setTimeout(() => {
-                        clickedDropdown.classList.remove('active');
-                    }, 100);
-                }
-            });
+                // Small delay to allow toggle handler to run first
+                setTimeout(() => {
+                    const clickedDropdown = event.target.closest('.nav-dropdown');
+                    const clickedToggle = event.target.closest('.nav-dropdown-toggle');
+                    
+                    // Don't close if menu was just opened or if clicking the toggle
+                    if (dropdownJustOpened || clickedToggle) {
+                        return;
+                    }
+                    
+                    if (!clickedDropdown) {
+                        // Clicked outside, close all dropdowns
+                        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('active'));
+                    } else if (event.target.closest('.nav-dropdown-item')) {
+                        // Clicked on a dropdown item, close dropdown after a short delay to allow link to work
+                        setTimeout(() => {
+                            clickedDropdown.classList.remove('active');
+                        }, 100);
+                    }
+                }, 10);
+            }, true);
             
             // Also handle touch events for mobile
             document.addEventListener('touchend', function(event) {
-                const clickedDropdown = event.target.closest('.nav-dropdown');
-                const clickedToggle = event.target.closest('.nav-dropdown-toggle');
-                
-                // Don't close if menu was just opened
-                if (dropdownJustOpened && clickedToggle) {
-                    dropdownJustOpened = false;
-                    return;
-                }
-                
-                if (!clickedDropdown) {
-                    // Touched outside, close all dropdowns
-                    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('active'));
-                }
-            }, { passive: true });
+                // Small delay to allow toggle handler to run first
+                setTimeout(() => {
+                    const clickedDropdown = event.target.closest('.nav-dropdown');
+                    const clickedToggle = event.target.closest('.nav-dropdown-toggle');
+                    
+                    // Don't close if menu was just opened or if touching the toggle
+                    if (dropdownJustOpened || clickedToggle) {
+                        return;
+                    }
+                    
+                    if (!clickedDropdown) {
+                        // Touched outside, close all dropdowns
+                        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('active'));
+                    }
+                }, 10);
+            }, { passive: true, capture: true });
 
         });
 
@@ -2431,32 +2463,6 @@
             }
         };
 
-        // Toggle More menu - make it globally available
-        window.toggleMoreMenu = function(event) {
-            if (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            const moreDropdown = document.querySelector('.nav-dropdown.mobile-only');
-            if (!moreDropdown) {
-                return;
-            }
-            
-            const isActive = moreDropdown.classList.contains('active');
-            
-            // Close all other dropdowns
-            document.querySelectorAll('.nav-dropdown').forEach(d => {
-                if (d !== moreDropdown) d.classList.remove('active');
-            });
-            
-            // Toggle current dropdown
-            if (isActive) {
-                moreDropdown.classList.remove('active');
-            } else {
-                moreDropdown.classList.add('active');
-            }
-        };
-        
         // Close language menu when clicking/touching outside
         function handleLanguageMenuClose(event) {
             const selector = document.querySelector('.language-selector');
