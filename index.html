@@ -719,6 +719,10 @@
                 display: none !important;
             }
 
+            .nav-links li.mobile-hide a {
+                display: none !important;
+            }
+
             .nav-links li.desktop-link {
                 display: none !important;
             }
@@ -927,6 +931,10 @@
             }
 
             .nav-links li.mobile-hide {
+                display: none !important;
+            }
+
+            .nav-links li.mobile-hide a {
                 display: none !important;
             }
 
@@ -1182,7 +1190,7 @@
                 <li class="mobile-hide"><a href="#tutorial">📚 Tutorial</a></li>
                 <li class="mobile-hide"><a href="#privacy">🔒 Privacy Policy</a></li>
                 <li class="nav-dropdown mobile-only">
-                    <button class="nav-dropdown-toggle" type="button">More</button>
+                    <button class="nav-dropdown-toggle" type="button" onclick="window.toggleMoreMenu(event)">More</button>
                     <div class="nav-dropdown-menu">
                         <a class="nav-dropdown-item" href="#tutorial">📚 Tutorial</a>
                         <a class="nav-dropdown-item" href="#privacy">🔒 Privacy Policy</a>
@@ -2466,11 +2474,12 @@
 
             // Update navigation links (desktop)
             const navLinks = document.querySelectorAll('.nav-links > li > a:not(.nav-dropdown-item)');
-            if (navLinks.length >= 4) {
+            if (navLinks.length >= 5) {
                 navLinks[0].textContent = t.nav.home;
-                navLinks[1].textContent = t.nav.about;
-                navLinks[2].innerHTML = `📚 ${t.nav.tutorial}`;
-                navLinks[3].innerHTML = `🔒 ${t.nav.privacy}`;
+                // navLinks[1] is Donate - don't change
+                navLinks[2].textContent = t.nav.about;
+                navLinks[3].innerHTML = `📚 ${t.nav.tutorial}`;
+                navLinks[4].innerHTML = `🔒 ${t.nav.privacy}`;
             }
             
 
