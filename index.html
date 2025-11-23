@@ -613,6 +613,10 @@
         .nav-dropdown.active .nav-dropdown-menu {
             display: block;
         }
+        
+        .nav-dropdown-menu.show {
+            display: block;
+        }
 
         .nav-dropdown-item {
             padding: 0.75rem 1.5rem;
@@ -859,6 +863,13 @@
                 transform: none !important;
             }
             
+            .nav-dropdown.mobile-only .nav-dropdown-menu.show {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            
             .nav-links-wrapper {
                 overflow: visible !important;
             }
@@ -1052,6 +1063,13 @@
             }
             
             .nav-dropdown.mobile-only.active .nav-dropdown-menu {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            
+            .nav-dropdown.mobile-only .nav-dropdown-menu.show {
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
@@ -1262,8 +1280,8 @@
                 <li class="mobile-hide"><a href="#tutorial">📚 Tutorial</a></li>
                 <li class="mobile-hide"><a href="#privacy">🔒 Privacy Policy</a></li>
                 <li class="nav-dropdown mobile-only">
-                    <button class="nav-dropdown-toggle" type="button">More</button>
-                    <div class="nav-dropdown-menu">
+                    <button class="nav-dropdown-toggle" type="button" onclick="window.toggleMoreMenu(event)">More</button>
+                    <div class="nav-dropdown-menu" id="moreDropdown">
                         <a class="nav-dropdown-item" href="#tutorial">📚 Tutorial</a>
                         <a class="nav-dropdown-item" href="#privacy">🔒 Privacy Policy</a>
                     </div>
@@ -2458,11 +2476,18 @@
                 }, false);
             }
             
-            // Setup all dropdown toggles
+            // Setup all dropdown toggles (except mobile-only which uses onclick)
             const toggles = document.querySelectorAll('.nav-dropdown-toggle');
-            toggles.forEach(setupDropdownToggle);
+            toggles.forEach(toggle => {
+                // Skip mobile-only dropdown - it uses onclick handler
+                const dropdown = toggle.parentElement;
+                if (dropdown && dropdown.classList.contains('mobile-only')) {
+                    return;
+                }
+                setupDropdownToggle(toggle);
+            });
             
-            // Special handling for mobile-only dropdown
+            // Special handling for mobile-only dropdown - ensure it's clickable
             const mobileMoreToggle = document.querySelector('.nav-dropdown.mobile-only .nav-dropdown-toggle');
             if (mobileMoreToggle) {
                 mobileMoreToggle.style.pointerEvents = 'auto';
@@ -2582,6 +2607,60 @@
         }
         document.addEventListener('click', handleLanguageMenuClose, true);
         document.addEventListener('touchstart', handleLanguageMenuClose, { passive: true, capture: true });
+
+        // Initialize More menu flag
+        window.moreMenuJustOpened = false;
+
+        // Toggle More menu - make it globally available (same as language menu)
+        window.toggleMoreMenu = function(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const dropdown = document.getElementById('moreDropdown');
+            if (!dropdown) {
+                return;
+            }
+            
+            const isShowing = dropdown.classList.contains('show');
+            
+            // Toggle dropdown
+            if (isShowing) {
+                dropdown.classList.remove('show');
+                window.moreMenuJustOpened = false;
+            } else {
+                dropdown.classList.add('show');
+                window.moreMenuJustOpened = true;
+                setTimeout(() => {
+                    window.moreMenuJustOpened = false;
+                }, 400);
+            }
+        };
+
+        // Close More menu when clicking/touching outside
+        function handleMoreMenuClose(event) {
+            const moreDropdown = document.getElementById('moreDropdown');
+            const moreDropdownContainer = document.querySelector('.nav-dropdown.mobile-only');
+            
+            if (!moreDropdownContainer || !moreDropdown) return;
+            
+            // Don't close if clicking inside the more dropdown container
+            if (moreDropdownContainer.contains(event.target)) {
+                return;
+            }
+            
+            // Don't close if menu was just opened
+            if (window.moreMenuJustOpened) {
+                return;
+            }
+            
+            // Close if dropdown is showing
+            if (moreDropdown.classList.contains('show')) {
+                moreDropdown.classList.remove('show');
+            }
+        }
+        document.addEventListener('click', handleMoreMenuClose, true);
+        document.addEventListener('touchstart', handleMoreMenuClose, { passive: true, capture: true });
 
         // Change language
         function changeLanguage(lang, save = true) {
