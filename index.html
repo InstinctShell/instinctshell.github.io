@@ -1038,7 +1038,7 @@
     <nav>
         <div class="nav-container">
                 <div class="language-selector">
-                    <button class="language-button" type="button">
+                    <button class="language-button" type="button" onclick="window.toggleLanguageMenu(event)">
                         <span id="current-lang-flag">🇬🇧</span>
                         <span id="current-lang-code">EN</span>
                     </button>
@@ -2221,45 +2221,17 @@
                 }
             });
 
-        // Ensure language button is clickable (desktop + mobile)
-        const langButton = document.querySelector('.language-button');
-        if (langButton) {
-            langButton.style.pointerEvents = 'auto';
-            langButton.style.zIndex = '1003';
-            langButton.style.touchAction = 'manipulation';
-            langButton.style.cursor = 'pointer';
-            langButton.style.userSelect = 'none';
-
-            let suppressNextClick = false;
-
-            const handleToggle = (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                window.toggleLanguageMenu();
-            };
-
-            langButton.addEventListener('touchend', (event) => {
-                suppressNextClick = true;
-                handleToggle(event);
-                setTimeout(() => {
-                    suppressNextClick = false;
-                }, 400);
-            }, { passive: false });
-
-            langButton.addEventListener('click', (event) => {
-                if (suppressNextClick) {
-                    return;
-                }
-                handleToggle(event);
-            });
-        }
         });
 
         // Initialize language menu flag
         window.languageMenuJustOpened = false;
 
         // Toggle language menu - make it globally available
-        window.toggleLanguageMenu = function() {
+        window.toggleLanguageMenu = function(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             const dropdown = document.getElementById('languageDropdown');
             if (!dropdown) {
                 return;
@@ -2622,11 +2594,26 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
                 if (target) {
-                    // No offset - scroll directly to target
-                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-                    
+                    const nav = document.querySelector('nav');
+                    const navHeight = nav ? nav.offsetHeight : 80;
+                    const extraGap = window.innerWidth <= 768 ? 6 : 10;
+                    let scrollTarget = target;
+
+                    if (targetId !== '#home') {
+                        const innerAnchor = target.querySelector('h1, h2, h3, .section-title, .card, .privacy-section');
+                        if (innerAnchor) {
+                            scrollTarget = innerAnchor;
+                        }
+                    }
+
+                    let targetPosition = scrollTarget.getBoundingClientRect().top + window.pageYOffset;
+                    if (targetId !== '#home') {
+                        targetPosition -= (navHeight + extraGap);
+                    }
+
                     window.scrollTo({
                         top: Math.max(0, targetPosition),
                         behavior: 'smooth'
