@@ -1038,7 +1038,7 @@
     <nav>
         <div class="nav-container">
                 <div class="language-selector">
-                    <button class="language-button" type="button" onclick="window.toggleLanguageMenu(event)">
+                    <button class="language-button" type="button">
                         <span id="current-lang-flag">🇬🇧</span>
                         <span id="current-lang-code">EN</span>
                     </button>
@@ -2221,26 +2221,45 @@
                 }
             });
 
-            // Ensure language button is clickable
-            const langButton = document.querySelector('.language-button');
-            if (langButton) {
-                langButton.style.pointerEvents = 'auto';
-                langButton.style.zIndex = '1003';
-                langButton.style.touchAction = 'manipulation';
-                langButton.style.cursor = 'pointer';
-            }
+        // Ensure language button is clickable (desktop + mobile)
+        const langButton = document.querySelector('.language-button');
+        if (langButton) {
+            langButton.style.pointerEvents = 'auto';
+            langButton.style.zIndex = '1003';
+            langButton.style.touchAction = 'manipulation';
+            langButton.style.cursor = 'pointer';
+            langButton.style.userSelect = 'none';
+
+            let suppressNextClick = false;
+
+            const handleToggle = (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                window.toggleLanguageMenu();
+            };
+
+            langButton.addEventListener('touchend', (event) => {
+                suppressNextClick = true;
+                handleToggle(event);
+                setTimeout(() => {
+                    suppressNextClick = false;
+                }, 400);
+            }, { passive: false });
+
+            langButton.addEventListener('click', (event) => {
+                if (suppressNextClick) {
+                    return;
+                }
+                handleToggle(event);
+            });
+        }
         });
 
         // Initialize language menu flag
         window.languageMenuJustOpened = false;
 
         // Toggle language menu - make it globally available
-        window.toggleLanguageMenu = function(e) {
-            if (e) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            
+        window.toggleLanguageMenu = function() {
             const dropdown = document.getElementById('languageDropdown');
             if (!dropdown) {
                 return;
@@ -2257,12 +2276,12 @@
                 window.languageMenuJustOpened = true;
                 setTimeout(() => {
                     window.languageMenuJustOpened = false;
-                }, 200);
+                }, 400);
             }
         };
         
-        // Close language menu when clicking outside
-        document.addEventListener('click', function(event) {
+        // Close language menu when clicking/touching outside
+        function handleLanguageMenuClose(event) {
             const selector = document.querySelector('.language-selector');
             const dropdown = document.getElementById('languageDropdown');
             
@@ -2282,7 +2301,9 @@
             if (dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
             }
-        });
+        }
+        document.addEventListener('click', handleLanguageMenuClose, true);
+        document.addEventListener('touchstart', handleLanguageMenuClose, { passive: true, capture: true });
 
         // Change language
         function changeLanguage(lang, save = true) {
